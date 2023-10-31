@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta name="description" content="">
+      <title>CPCP</title>
+      <meta name="ROBOTS" content="INDEX,FOLLOW">
+      <meta name="keywords" content="">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+      <!--Font-->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="all">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link
+         rel="preload"
+         href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap"
+         as="style"
+         onload="this.onload=null;this.rel='stylesheet'"
+         />
+      <noscript>
+         <link
+            href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap"
+            rel="stylesheet"
+            type="text/css"
+            />
+      </noscript>
+      <style class="main_style">
+         /* New code */
+        :root{
+          --grey:#e9e9e9;
+          --text-color:black;
+          --placeholder-color:black;
+        }
+        .form-control::-webkit-input-placeholder {
+    color: var(--placeholder-color);
+}
+         body{
+            background-color: var(--grey);
+         }
+         header {
+         background: #ec1d24;
+         padding-top: 8px;
+         padding-bottom: 8px;
+         }
+         header .logo {
+         display: flex;
+         justify-content: flex-end;
+         }
+         .content-box{
+         background: var(--grey);
+         }
+         .banner {
+         margin-bottom: 15px
+         }
+         .banner img,
+         .banner picture {
+         max-width: 100%;
+         height: auto;
+         }
+         .banner .inner-content {
+         position: relative;
+         min-height: 300px;
+         }
+         .tm-seres-form {
+         border-radius: 10px; 
+         padding: 30px 40px;
+         margin-top: 32px;
+         border: 1px solid var(--text-color);
+         }
+         .tm-seres-form p {
+         font-size: 24px;
+         font-weight: 600;
+         margin-bottom: 50px;
+         color: var(--text-color);
+         text-align: center;
+         text-transform: uppercase;
+         }
+         .tm-seres-form label {
+         font-size: 13px;
+         font-weight: 400;
+         }
+         .w-100{
+            width: 100% !important;
+            text-align: right;
+         }
+         .tm-seres-form button {
+         background: #ec1d24;
+         color: #fff;
+         border: 1px solid #ec1d24;
+         padding: 10px;
+         font-size: 16px;
+         border-radius: 10px;
+         }
+        footer p{
+        color: var(--text-color);
+        }
+        table{
+        border-collapse: separate !important;
+        }
+        tr:first-child td:first-child{
+        border-radius: 20px 0px 0px 0px !important;
+        }
+        tr:first-child td:last-child{
+        border-radius: 0px 20px 0px 0px !important;
+        }
+        
+        tr:last-child td:first-child{
+        border-radius: 0px 0px 0px 20px;
+        }
+        tr:last-child td:last-child{
+        border-radius: 0px 0px 20px 0px;
+        }
+         .tm-seres-form form .form-flex{
+         display: flex;
+         justify-content: space-between;
+         flex-wrap: wrap;
+         }
+         .tm-seres-form form .form-group {
+         width: 32%;
+         }
+         .tm-seres-form form input, .tm-seres-form form select{
+         height: 45px;
+         background: transparent;
+         box-shadow: none !important;
+         border: 1px solid var(--text-color);
+         border-radius: 20px;
+         }
+         .banner .inner-content img {
+         height: 90vh;
+         overflow: hidden;
+         object-position: left;
+         width: 100%;
+         }
+         .form-flex.row2 .form-group.w-50 {
+            width: 15%;
+         }
+         table{
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 16px;
+         }
+         table tr td {
+            padding: 0px 8px;
+            border: 1px solid var(--text-color);
+            color: var(--text-color);
+         }
+         table tr:first-child td{
+            background-color: var(--grey);
+         }
+         table tr select, table tr input{
+            border: 0 !important;
+            padding: 0 !important;
+         }
+        .selectBox{
+         display: flex;
+          align-items: center;
+        }
+         @media (max-width: 2550px) and (min-width : 1441px) {
+         
+         .tm-seres-form button, .tm-seres-form p{
+         font-size: 20px;
+         }
+         .form-control{
+         height: 50px;
+         font-size: 17px;
+         color:var(--text-color);
+         }
+         .form-group{
+         margin-bottom: 20px;
+         }
+         input[type='checkbox']{
+         width: 34px;
+         height: 25px;
+         position: relative;
+         top: 4px;
+         }
+         .tm-seres-form label{
+         font-size: 17px;
+         }
+         }
+         @media (max-width: 768px) {
+           .banner .content-box{
+           position: relative;
+           margin-top: 20px;
+           }
+           .banner .inner-content img {
+           height: auto;
+           overflow: hidden;
+           object-fit: cover;
+           object-position: top;
+           }
+           .tm-seres-form form .form-group{
+            width: 100% !important;
+           }
+           .form-flex.row2 .form-group.w-50{
+           width: 48% !important;
+           }
+           .tm-seres-form{
+            padding: 30px 20px;
+           }
+           table {
+              min-width: 600px;
+              /* overflow-x: scroll; */
+              display: inline-block;
+              position: relative;
+              min-height: 250px;
+          }
+           .form-table{
+             overflow-x: scroll;
+           }
+         }
+        .multiselect{
+        position: relative;
+        }
+        #checkboxes{
+        position: absolute;
+          left: 0;
+          right: 0;
+          padding: 6px 16px;
+          background: rgb(57, 57, 57);
+          max-height: 184px;
+          overflow-y: scroll;
+        }
+        #checkboxes label{
+        width: 100%;
+          align-items: center;
+          font-size: 15px;
+          color: #eee;
+        }
+        #checkboxes input{
+        height: auto !important;
+          margin: 0 !important;
+          margin-right: 10px !important;
+        }
+        .CPCP_input .form-group{
+         width: 48% !important;
+        }
+        .fa{
+          font-size: 16px;
+    font-weight: 900;
+        }
+      </style>
+      <!-- Google Tag Manager -->
+      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+         })(window,document,'script','dataLayer','GTM-WC4S3XC');
+      </script>
+      <!-- End Google Tag Manager -->
+   </head>
+   <body>
+      <!-- Google Tag Manager (noscript) -->
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WC4S3XC"
+         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <!-- End Google Tag Manager (noscript) -->
+      <header class="py-3">
+         <div class="container-fluid">
+            <div class="logo text-end">
+               <img src="https://image.connect.canon.co.in/lib/fe3811737164047f711574/m/1/d18392ee-d305-439d-ae9d-f0168ff3dcd4.png?b=1690391823000"
+                  alt="canon logo" width="147" height="58" loading="lazy">
+            </div>
+         </div>
+      </header>
+      <section id="about" class="banner">
+         <div class="inner-content">
+            <div class="content-box">
+               <div class="container">
+                  <div class="tm-seres-form">
+                     <p>
+                        Get access to Exclusive Offers and Best Prices
+                     </p>
+                     <form>
+                        <div class="form-flex">
+                           <div class="form-group">
+                              <input type="text" class="form-control" placeholder="Workflow ID" name="workflow_id" required>
+                           </div>
+                           <div class="form-group">
+                              <input type="Date" class="form-control" placeholder="DD/MM?YY" id="date" name="date" required>
+                           </div>
+                           <div class="form-group">
+                              <input type="text" class="form-control" placeholder="Region" name="region" required>                     
+                           </div>
+                        </div>
+                        <div class="form-flex row2">
+                           <div class="form-group">   
+                              <select class="form-control" name="sales_person" id="sales_person">
+                                 <option>Sales Person</option>
+                              </select>
+                           </div>
+                           <div class="form-group w-50">
+                              <select class="form-control" name="state" id="state">
+                                 <option>Select State</option>
+                              </select>
+                           </div>
+                           <div class="form-group w-50">
+                              <select class="form-control" name="location" id="location">
+                                 <option>Select Location</option>
+                              </select>
+                           </div>
+                           <div class="form-group">
+                              <input type="text" class="form-control" placeholder="Email" name="email" required>
+                           </div>
+                        </div>
+                        <div class="form-flex">
+                           <div class="form-group">
+                              <input type="text" class="form-control" placeholder="Customer Name" name="customer_name" required>
+                           </div>
+                           <div class="form-group">
+                              <input type="text" class="form-control" placeholder="Cust PO Ref No" name="cust_po_ref_no." required>
+                           </div>
+                           <div class="form-group">
+                              <select class="form-control two_select" name="gem" id="">
+                                 <option>GEM</option>
+                                 <option>CPCP </option>
+                              </select>
+                           </div>
+                        </div>
+                       <div class="form-flex CPCP_input" style="display: none;">
+                          <div class="form-group">
+                            <input type="text" class="form-control" placeholder="RC ID (If CPCP)
+" name="rc_id" required>
+                         </div>
+                         <div class="form-group">
+                            <select class="form-control">
+                             <option>Expired</option>
+                              <option>Not Expired</option>
+                           </select>
+                         </div>
+                        </div>
+                       <div class="form-table">
+                        <table id="append_new_field">
+                           <tr>
+                              <td style="width:32%;">
+                                 <div class="multiselect">
+                                    <div class="selectBox" onclick="showCheckboxes()">
+                                      <i class="fa fa-search" aria-hidden="true" style="margin-right:10px;"></i>
+                                      <input type="text" class="form-control" placeholder="Model Name" name="Model Name" id="modelNameInput" required>
+                                       <i class="fa fa-angle-down" aria-hidden="true" style="display: none;"></i>
+                                      <i class="fa fa-angle-up" aria-hidden="true" style="display: block;"></i>
+                                      <div class="overSelect"></div>
+                                    </div>
+                                    <div id="checkboxes" style="position: absolute;display:none;">
+                                      <label for="one">
+                                        <input type="checkbox" id="one" value="checkbox1"/>checkbox1</label>
+                                      <label for="two">
+                                        <input type="checkbox" id="two" value="checkbox2"/>checkbox2</label>
+                                      <label for="three">
+                                        <input type="checkbox" id="three" value="checkbox3"/>checkbox3</label>
+                                      <label for="four">
+                                        <input type="checkbox" id="four" value="checkbox4"/>checkbox4</label>
+                                      <label for="five">
+                                        <input type="checkbox" id="five" value="checkbox5"/>checkbox5</label>
+                                      <label for="six">
+                                        <input type="checkbox" id="six" value="checkbox6"/>checkbox6</label>
+                                      <label for="seven">
+                                        <input type="checkbox" id="seven" value="checkbox7"/>checkbox7</label>
+                                      <label for="eight">
+                                        <input type="checkbox" id="eight" value="checkbox8"/>checkbox8</label>
+                                      <label for="nine">
+                                        <input type="checkbox" id="nine" value="checkbox9"/>checkbox9</label>
+                                      <label for="ten">
+                                        <input type="checkbox" id="ten" value="checkbox10"/>checkbox10</label>
+                                      <label for="eleven">
+                                        <input type="checkbox" id="eleven" value="checkbox11"/>checkbox11</label>
+                                      <label for="twelve">
+                                        <input type="checkbox" id="twelve" value="checkbox12"/>checkbox12</label>
+                                      <label for="thirteen">
+                                        <input type="checkbox" id="thirteen" value="checkbox13"/>checkbox13</label>
+                                    </div>
+                                  </div>
+                              </td>
+                              <td>Quantity</td>
+                              <td>T1 Price</td>
+                              <td>T2 Price</td>
+                              <td style="width:32%;">Customer Price</td>
+                           </tr>
+                        </table>
+                         </div>
+                        <div class="form-flex">
+                           <div class="form-group">
+                              <select class="form-control" name="gem" id="">
+                                 <option>Select Partner Name</option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="form-group w-100">
+                           <button type="submit" name="submitted" value="submitted">
+                           Submit Your Query
+                           </button>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <footer class="py-3">
+         <div class="container">
+            <div class="row align-items-center">
+               <div class="col-md-12">
+                  <p class="mb-0 text-center">Copyright © 2023 Canon. <a
+                     href="https://in.canon/en/consumer/web/privacy" target="_blank">Cookie Policy</a> | <a
+                     href="https://in.canon/en/consumer/web/privacy" target="_blank">Privacy Notice</a> </p>
+               </div>
+            </div>
+         </div>
+      </footer>
+      <script>
+function icon_hiding(){
+  var multiselect=document.querySelector(".multiselect");
+  var up_icon=multiselect.querySelector(".fa-angle-up")
+  var down_icon=multiselect.querySelector(".fa-angle-down")
+  var checkboxes = document.getElementById("checkboxes");
+  if (checkboxes.style.display === "none") {
+    up_icon.style.display="block";
+    down_icon.style.display="none";}
+    else{
+      up_icon.style.display="none";
+    down_icon.style.display="block";
+    }
+}
+
+function showCheckboxes() {
+  var checkboxes = document.getElementById("checkboxes");
+  if (checkboxes.style.display === "none") {
+    checkboxes.style.display = "block";
+    icon_hiding();
+  }
+  else{
+    checkboxes.style.display = "none";
+    icon_hiding();
+  }
+}
+document.body.addEventListener("click", function(event) {
+    var multiselect=document.querySelector(".multiselect");
+  var checkboxes = document.getElementById("checkboxes");
+  if (!multiselect.contains(event.target)) {
+    checkboxes.style.display = "none";
+    icon_hiding();
+  }
+});
+var checkboxes = document.getElementById("checkboxes");
+var checkboxes_input = checkboxes.getElementsByTagName("input");
+var append_new_field = document.querySelector("#append_new_field");
+var select_possible=10;
+checkboxes.addEventListener("click", (event) => {
+  if (event.target.tagName === "INPUT" && event.target.type === "checkbox") {
+      if (event.target.checked && select_possible > 0) {
+        select_possible--;
+          createInputRow(event.target.id, event.target.value);
+      } else if (select_possible > 0) {
+        if(removeInputRow(event.target.id)){
+          select_possible++;
+        }
+      } else {
+          alert("You can't select more than 10 models");
+          event.target.checked = false;
+          if(removeInputRow(event.target.id)){
+            select_possible++;
+        }
+    }
+  }
+});
+
+function createInputRow(id, value) {
+  var newRow = document.createElement("tr");
+
+  function createInput(placeholder, name) {
+      var td = document.createElement("td");
+      var input = document.createElement("input");
+      input.type = "text";
+      input.className = "form-control";
+      input.placeholder = placeholder;
+      input.name = name;
+      input.required = true;
+      if(name=="Model Name"){
+        input.value = value;
+      }
+      td.appendChild(input);
+      newRow.appendChild(td);
+  }
+
+  createInput("Model Name", "Model Name");
+  createInput("Quantity", "quantity");
+  createInput("T1 Price", "t1_price");
+  createInput("T2 Price", "t2_price");
+  createInput("Customer Price", "customer_price");
+
+  newRow.id = "row_" + id;
+  append_new_field.appendChild(newRow);
+}
+
+function removeInputRow(id) {
+  var rowToRemove = document.getElementById("row_" + id);
+  if (rowToRemove) {
+      append_new_field.removeChild(rowToRemove);
+      return true;
+  }
+  return false;
+}
+var cpcp_input=document.querySelector(".CPCP_input");
+var gem_cpcp_select=document.querySelector(".two_select");
+gem_cpcp_select.addEventListener("change",(event)=>{
+  if(event.target.value=="CPCP"){
+    cpcp_input.style.display="flex";
+  }
+  else{
+    cpcp_input.style.display="none";
+  }
+})
+        const modelNameInput = document.getElementById("modelNameInput");
+modelNameInput.addEventListener("input", function () {
+  var all_label=checkboxes.querySelectorAll("label");
+  all_label.forEach((label)=>{
+    if(label.innerText.toLowerCase().includes(modelNameInput.value.toLowerCase())){
+      label.style.display="block";
+    }
+    else{
+      label.style.display="none";
+    }
+  })
+});
+     </script>
+   </body>
+</html>

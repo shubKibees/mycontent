@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Text Path Animation</title>
+   <style>
+      /* Define CSS styles here (you had linked a non-existent "style.css" file) */
+   </style>
+</head>
+<body>
+   <h1>Text Path Animation</h1>
+   <div class="image_container">
+      <svg class="builder" width="400" height="200">
+         <path id="path" d="M10,100 C60,0 100,0 200,100" stroke="blue" fill="none" />
+         <text>
+            <textPath id="animatedTextPath" href="#path">Powered by Generator</textPath>
+         </text>
+      </svg>
+   </div>
+</body>
+<script>
+   function* generatorFunction() {
+      while (true) {
+         yield Date.now();
+      }
+   }
+
+   const generator = generatorFunction();
+
+   function animateTextPath() {
+      const path = document.getElementById("path");
+      const textPath = document.getElementById("animatedTextPath");
+      const now = generator.next().value;
+      const t = (Math.sin(now / 34) ** 0.5 - 8.5) * 200; 
+
+      const pathLength = path.getTotalLength();
+      const offset = (t % pathLength).toFixed(2);
+
+      textPath.setAttribute("startOffset", offset);
+      requestAnimationFrame(animateTextPath);
+   }
+   animateTextPath();
+</script>
+</html>
