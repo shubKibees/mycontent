@@ -78,19 +78,35 @@ class Tree {
 var createSearchTree=new Tree(personDetail);
 
 const input_search=document.getElementById("inputSearch");
+const search_box=document.getElementById("searchResult");
 input_search.addEventListener("input",function(){
    var search_result=createSearchTree.searchWithPrefixExist(input_search.value);
+   search_box.innerHTML="";
    if(search_result.length>0){
-      document.getElementById("searchResult").innerHTML=search_result.join("<br>");
+     search_result.forEach((txt)=>{
+        search_box.appendChild(createLabel(txt));
+     }) 
    }
    else{
-      document.getElementById("searchResult").innerHTML="No Result Found";
+      search_box.appendChild(createLabel("No Result Found"));
    }
+})
 
+var box=document.getElementById("searchResult");
+box.addEventListener("click",function(e){
+   var target=e.target;
+   if(target.tagName=="P"){
+      input_search.value=target.innerHTML;
+      
+   }
 })
 
 
-
+function createLabel(text){
+   var label=document.createElement("p");
+   label.innerHTML=text;
+   return label;
+}
 
 
 
