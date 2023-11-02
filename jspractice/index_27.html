@@ -240,6 +240,21 @@
         .CPCP_input .form-group{
          width: 48% !important;
         }
+        .rotate{
+         transform:rotate(180deg)
+        }
+        tr[id^="row_"] td:first-child::before{
+         content: "X";
+         background-color: #ec1d24;
+         position: absolute;
+         transform: translateX(-20px);
+         width:10px;
+         border-radius: 50%;
+         aspect-ratio: 1/1;
+         color:white;
+         font-size: 20px;
+         font-weight: 300;
+        }
       </style>
       <!-- Google Tag Manager -->
       <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -335,8 +350,7 @@
                                  <div class="multiselect">
                                     <div class="selectBox">
                                       <input type="text" class="form-control" placeholder="Model Name" name="Model Name" id="modelNameInput" required>
-                                       <i class="fa fa-angle-down" aria-hidden="true" style="display: none;"></i>
-                                      <i class="fa fa-angle-up" aria-hidden="true" style="display: block;"></i>
+                                      <i class="fa fa-angle-up rotate" aria-hidden="true" ></i>
                                       <div class="overSelect"></div>
                                     </div>
                                     <div id="checkboxes" style="position: absolute;display:none;">
@@ -378,7 +392,7 @@
                          </div>
                         <div class="form-flex">
                            <div class="form-group">
-                              <select class="form-control" name="gem" id="">
+                              <select class="form-control" name="gem" id="partnerid">
                                  <option>Select Partner Name</option>
                               </select>
                            </div>
