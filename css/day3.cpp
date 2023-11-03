@@ -8,15 +8,49 @@
 
 #include <iostream>
 #include <vector>
+#include <numeric>
+#include <algorithm>
 using namespace std;
 class Solution
 {
 public:
-   int isItPossibleToshipWithinGivenDay(vector<int> &weights, int capacity, int days)
+   bool isItPossibleToShipWithinGivenDay(vector<int> &weights, int capacity, int days)
    {
-      int day = 0;
+      int dayForShip = 1;
+      int load = 0;
+      for (auto weg : weights)
+      {
+         if (load + weg > capacity)
+         {
+            dayForShip++;
+            load = weg;
+         }
+         else
+         {
+            load += weg;
+         }
+      }
+      return dayForShip <= days;
    }
+
    int shipWithinDays(vector<int> &weights, int days)
    {
+      int low = *max_element(weights.begin(), weights.end());
+      int high_capacity = accumulate(weights.begin(), weights.end(), 0);
+
+      while (low <= high_capacity)
+      {
+         int tem_capacity = (low + high_capacity) / 2;
+         if (isItPossibleToShipWithinGivenDay(weights, tem_capacity, days))
+         {
+            high_capacity = tem_capacity - 1;
+         }
+         else
+         {
+            low = tem_capacity + 1;
+         }
+      }
+
+      return low;
    }
 };

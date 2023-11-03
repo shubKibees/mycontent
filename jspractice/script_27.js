@@ -64,10 +64,10 @@ class Multiselect {
     this.downIcon = multiselectElement.querySelector(".fa-angle-down");
     this.modelInput=document.getElementById("modelNameInput");
     this.isCheckboxesVisible = false;
-    this.selectBoxInput.addEventListener("click", this.handleClickEvent.bind(this));
-    document.body.addEventListener("click", this.handleClickOutsideEvent.bind(this));
-    this.gemCpcpSelectElement.addEventListener("change", this.handleSelectChangeEvent.bind(this));
-    this.modelInput.addEventListener("input", this.handleModelNameInputChange.bind(this));
+    this.selectBoxInput.addEventListener("click", (event)=>{this.handleClickEvent(event)});
+    document.body.addEventListener("click", (event)=>{this.handleClickOutsideEvent(event)});
+    this.gemCpcpSelectElement.addEventListener("change", (event)=>{this.handleSelectChangeEvent(event)});
+    this.modelInput.addEventListener("input", (event)=>{this.handleModelNameInputChange(event)});
   }
 
   handleClickEvent(event) {
