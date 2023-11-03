@@ -33,21 +33,87 @@
 //  }
  
 
-function defaultPractice({
-  title= "---------title",
-  gallery: {
-    image_location= "---------------image_location",
-    image_alt= "----------image_alt",
-    theee:{thiei="-----------thiei"}={}
-  }={},
-  content= "------------content"
-})
-{
-  console.log(title);
-  console.log(image_alt)
-  console.log(thiei)
-  console.log(content)
- }
+// function defaultPractice({
+//   title= "---------title",
+//   gallery: {
+//     image_location= "---------------image_location",
+//     image_alt= "----------image_alt",
+//     theee:{thiei="-----------thiei"}={}
+//   }={},
+//   content= "------------content"
+// }={})
+// {
+//   console.log(title);
+//   console.log(image_alt)
+//   console.log(thiei)
+//   console.log(content)
+//  }
 
 
- defaultPractice({gallery:{image_location:"img/block",theee:{thiei:"hellow"}},content:"lofreii"})
+//  defaultPractice({gallery:{image_location:"img/block",theee:{thiei:"hellow"}},content:"lofreii"})
+
+
+//understand iteration
+
+
+// var fibonachi={
+//   [Symbol.iterator](){
+//     var firstChoise=1,secondChoise=1;
+//     return {
+//       [Symbol.iterator](){
+//         return this;
+//       },
+//       next(){
+//         var currentChoise=secondChoise;
+//         firstChoise=secondChoise;
+//         secondChoise=currentChoise+firstChoise;
+//         return {value:currentChoise,done:false}
+//       },
+//       return(v){
+//         console.log("generator end")
+//         return {value:v,done:true}
+//       }
+//     };
+//   }
+// }
+
+
+
+  
+
+
+var allPossibleSubstring = {
+  [Symbol.iterator]() {
+    var index = this.string_.length;
+    var subst=this.string_;
+    var substtemp;
+    return {
+      [Symbol.iterator]() {
+        return this;
+      },
+      next() {
+        if (index <= 0) {
+          return { done: true };
+        }
+        substtemp = { value: subst.substring(0, index), done: false };
+        index--;
+        return substtemp;
+      },
+      return(v) {
+        console.log("generator end");
+        return { value: v, done: true };
+      }
+    };
+  },
+  string_: "thiihiih"
+};
+
+allPossibleSubstring.string_ = "shubham";
+
+var length = allPossibleSubstring.string_.length--;
+for (let i of allPossibleSubstring) {
+  if (length <= 0) break;
+  length--;
+  console.log(i);
+}
+
