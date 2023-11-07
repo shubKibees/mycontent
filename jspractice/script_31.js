@@ -36,11 +36,9 @@ inputForm.addEventListener("submit", function (event) {
   const name = nameInput.value;
   const age = parseInt(ageInput.value, 10);
 
-  // Use the personProxy to set values with validation
   personProxy.name = name;
   personProxy.age = age;
 
-  // Update the displayed values
   nameOutput.textContent = person.name;
   ageOutput.textContent = person.age;
   personProxy.name

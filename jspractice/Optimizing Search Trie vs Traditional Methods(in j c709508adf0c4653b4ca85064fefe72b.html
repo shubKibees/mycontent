@@ -1,0 +1,829 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Optimizing Search: Trie vs. Traditional Methods(in javaScript)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c709508a-df0c-4653-b4ca-85064fefe72b" class="page serif"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/met_william_morris_1875.jpg" style="object-position:center 0%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">✏️</span></div><h1 class="page-title">Optimizing Search: Trie vs. Traditional Methods(in javaScript)</h1><p class="page-description"></p></header><div class="page-body"><div id="479b7256-25d1-4201-b412-a44c05712845" class="column-list"><div id="e4ce4fad-e2f7-4f08-8d4a-a864d3c236bf" style="width:43.75%" class="column"><p id="6ce2338c-7736-4eb5-8731-9553da55f26b" class="block-color-gray">November 6, 2023</p></div><div id="ea5b3474-4f97-4094-a68a-1f88e422b46c" style="width:56.24999999999998%" class="column"><p id="9be0faa4-232e-433c-b667-2cc98d9bd395" class="block-color-gray">SHUBHAM KUMAR</p></div></div><p id="a6747da5-7422-4c25-ab15-7ea9f240591f" class="block-color-gray">I have been using traditional methods for a long time to search for strings in an array and display them in the window. This involves using a linear search algorithm. However, recently I discovered a method that is much faster and more efficient than linear search. I found this method in a blog post by <a href="https://dev.to/c6z3h">ZhiHong Chua</a>.</p><p id="e1b56982-3e08-4fae-a556-59773fb17bdf" class="block-color-gray">Source: <a href="https://dev.to/c6z3h/autocomplete-feature-using-trie-data-structure-313g">Autocomplete Feature using Trie Data Structure</a></p><h2 id="d23302ee-19b2-41f3-ba96-251d00837dc2" class="">Traditional Methods</h2><p id="452807b5-9c27-45ae-800b-5cac6e5cc6bd" class="">The Traditional Method is a simple approach where we iterate over an array and use the string include method to determine if our string contains a prefix. If it does, we append it to a box that displays all the search results. If it doesn&#x27;t contain the prefix, we don&#x27;t include that string in the search result box.</p><figure id="aa5f0374-474c-48ca-a3b5-d83c9417a3fd"><div class="source"><a href="https://codepen.io/shubKibees/pen/qBLoLez">https://codepen.io/shubKibees/pen/qBLoLez</a></div></figure><div id="62f689ec-677d-4450-9757-9db658d48f51" class="column-list"><div id="ee27c95d-49e5-4f4c-953a-8b9933e0a81d" style="width:100%" class="column"><h3 id="73e4189d-9a99-4a0a-ad37-438a48599d45" class=""><strong><strong>Pros</strong></strong></h3><ul id="1a0d55b1-506d-44c0-9453-1c3068d60f10" class="bulleted-list"><li style="list-style-type:disc"><strong>Simplicity:</strong> The Traditional Method offers a straightforward and easy-to-understand approach for searching and displaying results.</li></ul><ul id="6058325f-a125-4859-bc27-bea1cc0d5336" class="bulleted-list"><li style="list-style-type:disc"><strong>Readability:</strong> The code is easy to read and comprehend, making it accessible for developers of varying skill levels.</li></ul><ul id="98914f9a-a29e-4bd2-a79a-c4d388c4227e" class="bulleted-list"><li style="list-style-type:disc"><strong>Transparency:</strong> The logic is transparent, as it directly iterates through the array and checks for string inclusion, making it clear what the code is doing.</li></ul><p id="b028c3c8-1b3e-4c86-8a5c-d93790f066ce" class="">
+</p><p id="9d996aed-3b61-4162-9a0f-660a2c1dfeee" class="">
+</p><p id="804a51ec-9b1c-45d4-90f1-e594109c1a98" class="">
+</p><p id="06e595a0-18be-4f82-8c40-4839bc85685a" class="">
+</p></div><div id="f8619ac8-7e81-4bb6-877b-82f6434e962a" style="width:100%" class="column"><h3 id="4de1c2f7-8b92-4982-9f84-a80fd222bad1" class=""><strong><strong>Cons</strong></strong></h3><ul id="8c5c0c53-c0fc-49d0-a2fc-0edf544447c9" class="bulleted-list"><li style="list-style-type:disc"><strong>Time Complexity:</strong> The time complexity of this method can be a drawback, especially for large datasets. The average word length (m) and the number of words in the array (n) result in a time complexity of O(m*n). This means that the method&#x27;s performance may degrade significantly when dealing with extensive lists of words.</li></ul><ul id="06108f05-b094-4098-9767-b8b400d12c38" class="bulleted-list"><li style="list-style-type:disc"><strong>Space Complexity:</strong> The method&#x27;s space complexity is also a concern, as it scales with the product of the average word length (m) and the number of words in the array (n), resulting in a space complexity of O(m*n). This can lead to high memory consumption for large datasets.</li></ul></div></div><h2 id="b7f43052-dfd3-4b2c-b47b-965181f31026" class="block-color-gray"><mark class="highlight-default">Trie Methods</mark></h2><figure id="4dada64e-2917-4f02-a4fb-d89cc05946a8"><div class="source"><a href="https://codepen.io/shubKibees/pen/eYxgpPP">https://codepen.io/shubKibees/pen/eYxgpPP</a></div></figure><p id="bf71873a-5b68-4520-8132-589c93eafc76" class="">The Trie method is a somewhat complex approach where we create a tree data structure with nodes. Each node has two properties: &quot;map_char&quot; which stores all the characters as keys and their corresponding values as another node, and &quot;endWord&quot; which is a boolean indicating whether the word ends at that node or not.</p><pre id="47f72d40-6d71-478a-ab7e-c15373596cf9" class="code code-wrap"><code>class node{
+   constructor(map_char=new Map(),endWord=false){
+      this.map_char=map_char;
+      this.endWord=endWord;
+   }
+}</code></pre><div id="587b92bd-b56c-43b3-b1d0-87a039236ec7" class="column-list"><h3 id="3497c581-26dd-4208-bb3d-7274f88b5f54" class=""><strong><strong>Pros</strong></strong></h3><ul id="5b6af7b9-beeb-4be8-8917-bd0968de3174" class="bulleted-list"><li style="list-style-type:disc"><strong>Simplicity:</strong> The Traditional Method offers a straightforward and easy-to-understand approach for searching and displaying results.</li></ul><ul id="f0d3a2bd-24b9-47f3-a9f9-2d53278b8e57" class="bulleted-list"><li style="list-style-type:disc"><strong>Readability:</strong> The code is easy to read and comprehend, making it accessible for developers of varying skill levels.</li></ul><ul id="76db4089-c21f-4b4e-b7e0-2893db9d76d9" class="bulleted-list"><li style="list-style-type:disc"><strong>Transparency:</strong> The logic is transparent, as it directly iterates through the array and checks for string inclusion, making it clear what the code is doing.</li></ul><p id="9673d309-6ce2-4ec9-9351-2fb2ac49fc98" class="">
+</p><p id="11fb5160-3159-4682-a543-2c005a34253e" class="">
+</p><p id="81be13ab-3662-44e3-bf02-cd28fdc78452" class="">
+</p><p id="a476f1ad-fc8b-4bbc-b120-ad3220908e8b" class="">
+</p><h3 id="4dd8cfba-e812-45aa-943a-b9a5c1556c30" class=""><strong><strong>Cons</strong></strong></h3><ul id="3517c0d7-36a4-4ed8-9ab6-445abbe189f0" class="bulleted-list"><li style="list-style-type:disc"><strong>Time Complexity:</strong> The time complexity of this method can be a drawback, especially for large datasets. The average word length (m) and the number of words in the array (n) result in a time complexity of O(m*n). This means that the method&#x27;s performance may degrade significantly when dealing with extensive lists of words.</li></ul><ul id="69b2927c-e446-4e29-8e1e-5b3c61f59fe4" class="bulleted-list"><li style="list-style-type:disc"><strong>Space Complexity:</strong> The method&#x27;s space complexity is also a concern, as it scales with the product of the average word length (m) and the number of words in the array (n), resulting in a space complexity of O(m*n). This can lead to high memory consumption for large datasets.</li></ul></div><p id="b58fba0a-2e98-4c68-b1fb-3b36a59e00aa" class="">We create another class called &#x27;Tree&#x27; with three properties. The first property is &#x27;root,&#x27; responsible for initializing the tree with the first node. The second property is &#x27;storage,&#x27; used to store all the words to be inserted into the tree. The third property is &#x27;word,&#x27; which stores the words to be displayed in the search results. We also automatically call the &#x27;createTree&#x27; member function to insert words into the tree automatically.</p><p id="1abae205-b984-46c5-9ffe-e176ec71c80b" class="">
+</p><pre id="0a7aee9b-8986-42a0-ba08-26e94b4224f4" class="code code-wrap"><code>class tree {
+   constructor(storage) {
+     this.root = new node();
+     this.words = []; 
+     this.storage=storage;
+     this.createTree();
+   }
+}</code></pre><pre id="c2cd67a0-ff25-4bf4-ad9d-bf7dfc596e2a" class="code code-wrap"><code>createTree(){
+      for(let i=0;i&lt;this.storage.length;i++){
+         this.insert(this.storage[i]);
+      }
+      console.log(&quot;tree created again&quot;)
+   }</code></pre><p id="4859a6e0-69a0-4001-8aa5-719ec38f5e6a" class="">The <code><strong>insert()</strong></code> member function is designed to insert a word into a tree data structure. This function iterates over each character in the input word, storing them one by one and creating new nodes in the tree as needed</p><p id="7e65420b-bd6e-4517-a97d-81d051e6cc02" class="">In summary, the <code><strong>insert()</strong></code> function traverses the tree character by character, creating new nodes as necessary, and marks the end of a word by setting the <code><strong>endWord</strong></code> property to <code><strong>true</strong></code> for the final character node. This effectively inserts the word into the tree data structure, allowing it to be later retrieved or searched for.</p><pre id="55e2e854-ec73-4bbf-bb57-a50cc036a79a" class="code code-wrap"><code>insert(word) {
+     let temp = this.root;
+     for (let char of word) {
+       if (!temp.map_char.has(char)) {
+         temp.map_char.set(char, new node());
+       }
+       temp = temp.map_char.get(char);
+     }
+     temp.endWord = true;
+   }</code></pre><p id="642d7f33-bcb2-444a-a34e-dc5959d675dc" class="">In summary, the <code><strong>ifPrefixExist()</strong></code> function searches for a prefix in the tree and, if found, returns an array of words with that prefix. If the prefix is not found, it returns an empty array.</p><pre id="6910cb9e-9654-424c-8e8e-c8ace4319c7e" class="code code-wrap"><code>ifPrefixExist(prefix) {
+     let temp = this.root;
+     for (let char of prefix) {
+       if (!temp.map_char.has(char)) {
+         return [];
+       }
+       temp = temp.map_char.get(char);
+     }
+     this.words = []; 
+     this.allWordwithPrefix(prefix, temp);
+     return this.words;
+   }</code></pre><p id="124c2b56-6970-4941-9633-1531e299f03d" class="">The <code><strong>allWordwithPrefix()</strong></code> function is designed to be automatically called when a prefix exists in the tree. It recursively fills an array called <code><strong>words</strong></code> with words that start with the specified prefix. Here&#x27;s a step-by-step explanation of how it works:</p><pre id="6e3088f3-d892-4121-9877-235cb7369d5c" class="code code-wrap"><code>allWordwithPrefix(prefix, startNode, currentWord = &#x27;&#x27;) {
+     if (startNode.endWord) {
+       this.words.push(prefix + currentWord);
+     }
+     for (let [key, value] of startNode.map_char) {
+       this.allWordwithPrefix(prefix, value, currentWord + key);
+     }
+   }</code></pre><ol type="1" id="06cac47c-71e0-4980-bb28-47851d1fc1a5" class="numbered-list" start="1"><li><mark class="highlight-gray">allWordwithPrefix(prefix, startNode, currentWord = &#x27;&#x27;) {: This function takes three parameters: prefix, startNode, and currentWord. prefix is the prefix for which we want to find matching words, startNode is the current node being examined in the tree, and currentWord is a string that accumulates the characters as the function traverses the tree.</mark></li></ol><ol type="1" id="41594940-015a-483b-b702-ef47240386ed" class="numbered-list" start="2"><li><mark class="highlight-gray">if (startNode.endWord) {: This condition checks if the startNode represents the end of a word. If it does, it means that the path from the root to this node forms a complete word. In this case, the function appends the combination of the prefix and currentWord to the words array. This effectively adds a word that starts with the specified prefix to the results.</mark></li></ol><ol type="1" id="4116eb69-2a58-410b-ba5d-defa494a1515" class="numbered-list" start="3"><li><mark class="highlight-gray">for (let [key, value] of startNode.map_char) {: The function iterates over the characters and their corresponding child nodes in the map_char property of the startNode. This loop allows the function to explore all possible paths in the tree that extend the current prefix.</mark></li></ol><ol type="1" id="6aca271c-d04f-44fd-acf5-c06258c9c443" class="numbered-list" start="4"><li><mark class="highlight-gray">this.allWordwithPrefix(prefix, value, currentWord + key);: Within the loop, the function calls itself recursively, passing the new value (child node) as the startNode. It also appends the current character (key) to the currentWord. This recursive call effectively continues the traversal of the tree, exploring all possible paths to find words that start with the specified prefix.</mark></li></ol><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><strong>Full code</strong></summary><div class="indented"><pre id="ea57b004-f079-40a0-a5af-f6886320f81a" class="code code-wrap"><code>var personDetail=[&quot;Ramlesh Singh&quot;,&quot;Ranjeet Singh&quot;,&quot;Anand K Singh&quot;,&quot;Ankur Goel&quot;,&quot;Vishesh Kumar Bhatia&quot;,&quot;Rishabh Kapoor&quot;,&quot;Manoj Gulati&quot;,&quot;Abhishek K Singh&quot;,&quot;Ashutosh Dubey&quot;.....]
+
+class node{
+   constructor(map_char=new Map(),endWord=false){
+      this.map_char=map_char;
+      this.endWord=endWord;
+   }
+}
+
+class tree {
+   constructor(storage) {
+     this.root = new node();
+     this.words = []; 
+     this.storage=storage;
+     this.createTree();
+   }
+ 
+   insert(word) {
+     let temp = this.root;
+     for (let char of word) {
+       if (!temp.map_char.has(char)) {
+         temp.map_char.set(char, new node());
+       }
+       temp = temp.map_char.get(char);
+     }
+     temp.endWord = true;
+   }
+ 
+   ifPrefixExist(prefix) {
+     let temp = this.root;
+     for (let char of prefix) {
+       if (!temp.map_char.has(char)) {
+         return false;
+       }
+       temp = temp.map_char.get(char);
+     }
+     this.words = []; 
+     this.allWordwithPrefix(prefix, temp);
+     return this.words;
+   }
+ 
+   allWordwithPrefix(prefix, startNode, currentWord = &#x27;&#x27;) {
+     if (startNode.endWord) {
+       this.words.push(prefix + currentWord);
+     }
+     for (let [key, value] of startNode.map_char) {
+       this.allWordwithPrefix(prefix, value, currentWord + key);
+     }
+   }
+   createTree(){
+      for(let i=0;i&lt;this.storage.length;i++){
+         this.insert(this.storage[i].toLowerCase());
+      }
+      console.log(&quot;tree created again&quot;)
+   }
+ }
+
+var createSearchTree=new tree(personDetail); //creating the tree
+const input_search=document.getElementById(&quot;inputSearch&quot;);
+const search_box=document.getElementById(&quot;searchResult&quot;);
+input_search.addEventListener(&quot;input&quot;,function(){
+   var search_result=createSearchTree.ifPrefixExist(input_search.value);
+   search_box.innerHTML=&quot;&quot;;
+   if(search_result.length&gt;0){
+     search_result.forEach((txt)=&gt;{
+        search_box.appendChild(createLabel(txt));
+     }) 
+   }
+   else{
+      search_box.appendChild(createLabel(&quot;No Result Found&quot;));
+   }
+})
+
+
+var box=document.getElementById(&quot;searchResult&quot;);
+box.addEventListener(&quot;click&quot;,function(e){
+   var target=e.target;
+   if(target.tagName==&quot;P&quot;){
+      input_search.value=target.innerHTML;
+      
+   }
+})
+
+
+// input_search.addEventListener(&quot;input&quot;,function(){
+//   search_box.innerHTML=&quot;&quot;;
+//   personDetail.forEach((detail)=&gt;{
+//      if(detail.includes(input_search.value)){
+//       search_box.appendChild(createLabel(txt));
+//      }
+//      else{
+//       search_box.appendChild(createLabel(&quot;No Result Found&quot;));
+//      }
+//   })
+// })
+
+function createLabel(text){
+   var label=document.createElement(&quot;p&quot;);
+   label.innerHTML=text;
+   return label;
+}</code></pre><h3 id="3142874e-873c-4945-9fbc-aa0310577fb3" class=""></h3></div></details></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
