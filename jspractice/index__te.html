@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #container {
+      width: 100%;
+      height: 100vh;
+      overflow-y: scroll;
+      position: relative;
+    }
+
+    #scrollContent {
+      width: 100%;
+      height: 200vh; /* Adjust the height as needed */
+      position: relative;
+    }
+
+    #dynamicDiv {
+      width: 100px;
+      height: 100px;
+      background-color: lightblue;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+      transition: clip-path 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="scrollContent">
+      <div id="dynamicDiv"></div>
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('container');
+    const dynamicDiv = document.getElementById('dynamicDiv');
+
+    container.addEventListener('scroll', () => {
+      const scrollPercentage = container.scrollTop / (container.scrollHeight - container.clientHeight);
+      const corners = Math.floor(3 + 5 * scrollPercentage); // Adjust the formula as needed
+      dynamicDiv.style.clipPath = `polygon(${generatePolygonPoints(corners)})`;
+    });
+
+    function generatePolygonPoints(corners) {
+      const points = [];
+      for (let i = 0; i < corners; i++) {
+        const angle = (i * 360) / corners;
+        const x = Math.cos(degreesToRadians(angle)) * 50 + 50; // Adjust the radius as needed
+        const y = Math.sin(degreesToRadians(angle)) * 50 + 50;
+        points.push(`${x}% ${y}%`);
+      }
+      return points.join(', ');
+    }
+
+    function degreesToRadians(degrees) {
+      return (degrees * Math.PI) / 180;
+    }
+  </script>
+</body>
+</html>

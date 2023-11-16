@@ -13,7 +13,8 @@ function createGridItem(index) {
     div.style.height = `${BLOCK_SIZE}px`;
     div.classList.add("block");
     div.dataset.position = index;
-    div.style.backgroundColor = randomColor();
+    // div.style.backgroundColor = randomColor();
+    // div.style.opacity=0;
     return div;
 }
 
@@ -35,33 +36,30 @@ function createGrid() {
         if (width <= 0 && height >= 0) {
             height -= BLOCK_SIZE;
             if (!noOfBlocksInRow) {
-                noOfBlocksInRow = index - 1;
+                noOfBlocksInRow = index;
+                console.log("noOfBlocksInRow:",noOfBlocksInRow)
             }
-            width = container.getBoundingClientRect().width - BLOCK_SIZE;
+            width = container.getBoundingClientRect().width;
         }
     }
 }
 
 function handleResize() {
-    while (gridContainer.firstChild) {
-        gridContainer.removeChild(gridContainer.firstChild);
-    }
+    gridContainer.innerHTML = "";
+    noOfBlocksInRow = 0;
     createGrid();
 }
 
 function findDimension(origin, noOfBlocksWithinRow) {
-    const x = origin % noOfBlocksWithinRow;
-    const y = Math.floor(origin / noOfBlocksWithinRow);
-    const top = (y - 1) * noOfBlocksWithinRow + x + 1;
-    const bottom = (y + 1) * noOfBlocksWithinRow + x - 1;
-    const left = y * noOfBlocksWithinRow + (x - 1);
-    const right = y * noOfBlocksWithinRow + (x + 1);
+    const top = (origin - noOfBlocksWithinRow);
+    const bottom = origin + noOfBlocksWithinRow;
+    const left = origin-1;
+    const right = origin+1;
     return [origin, top, bottom, left, right];
 }
-
 function handleMouseOver(e) {
     if (e.target.classList.contains("block")) {
-        const dimension = findDimension(e.target.dataset.position, noOfBlocksInRow);
+        const dimension = findDimension(parseInt(e.target.dataset.position), noOfBlocksInRow);
         console.log(dimension);
         dimension.forEach(index => {
             const element = document.querySelector(`[data-position="${index}"]`);
@@ -72,7 +70,7 @@ function handleMouseOver(e) {
 
 function handleMouseOut(e) {
     if (e.target.classList.contains("block")) {
-        const dimension = findDimension(e.target.dataset.position, noOfBlocksInRow);
+        const dimension = findDimension(parseInt(e.target.dataset.position), noOfBlocksInRow);
         dimension.forEach(index => {
             const element = document.querySelector(`[data-position="${index}"]`);
             element && element.classList.remove("animate");
@@ -83,5 +81,4 @@ function handleMouseOut(e) {
 window.addEventListener("resize", handleResize);
 container.addEventListener("mouseover", handleMouseOver);
 container.addEventListener("mouseout", handleMouseOut);
-
 createGrid();
