@@ -94,3 +94,30 @@ function* generatorFunction() {
 
  // Start the animation
  animateTextPath();
+
+
+ const close_button=document.querySelector(".cross-button")
+ close_button.addEventListener("click",()=>{
+    close_button.closest(".cookies-box").style.display="none"
+ })
+
+
+
+
+ function textUpdate(i) {
+   const text_area = document.getElementById("textt");
+   const current_placeholder = text_area.getAttribute("placeholder");
+   let char = string.charAt(i);
+   text_area.setAttribute("placeholder", current_placeholder + char);
+ }
+ 
+ function* gen(str) {
+   for (let i = 0; i < str.length; i++) {
+     yield textUpdate(i);
+   }
+ }
+ 
+ for (let result of gen("yourStringHere")) {
+   result.next();
+ }
+ 

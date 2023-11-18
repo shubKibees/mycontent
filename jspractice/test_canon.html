@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta name="description" content="">
+   <title>Power to Choose MFD</title>
+   <meta name="ROBOTS" content="INDEX,FOLLOW">
+   <meta name="keywords" content="">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+   <script src="https://www.google.com/recaptcha/api.js"></script>
+   <!--Font-->
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <style class="main_style">
+      /* New code */
+      header {
+         padding-top: 8px;
+         padding-bottom: 8px;
+         background: #fff;
+      }
+
+      header .logo {
+         display: flex;
+         justify-content: flex-end;
+      }
+
+      .banner img,
+      .banner picture {
+         max-width: 100%;
+         height: auto;
+      }
+
+      .banner .inner-content {
+         position: relative;
+         min-height: 300px;
+      }
+
+
+      .banner .content-box {
+         position: absolute;
+         top: 0px;
+         bottom: 0px;
+         left: 0px;
+         right: 0px;
+         display: flex;
+         justify-content: flex-start;
+         align-items: center
+      }
+
+        .tm-seres-form {
+         background: #fff;
+         max-width: 360px;
+         padding: 20px 20px 5px;
+         float: right;
+         border-radius: 10px;
+
+      }
+
+      .tm-seres-form p {
+         font-size: 24px;
+         font-weight: 500;
+         margin-bottom: 15px;
+         color: #000;
+         text-align: center;
+         line-height: 28px;
+      }
+
+      .tm-seres-form label {
+         font-size: 13px;
+         font-weight: 400;
+      }
+
+      .tm-seres-form button {
+         background: #ec1d24;
+         width: 100%;
+         color: #fff;
+         border: 1px solid #ec1d24;
+         padding: 10px;
+         font-size: 16px;
+         border-radius: 10px;
+      }
+
+      .banner .inner-content img {
+         overflow: hidden;
+         object-position: center;
+         object-fit: fill;
+         width: 100%;
+      }
+
+      .tm-seres-form form {
+         display: flex;
+         justify-content: space-between;
+         flex-wrap: wrap;
+      }
+
+      .tm-seres-form form .form-group {
+         width: 100%;
+      }
+      #errorMessage{
+         color:red;
+      }
+      .w-50 {
+         width: 48% !important;
+      }
+
+      select {
+         color: #888 !important;
+      }
+
+      .w-100 {
+         width: 100% !important;
+      }
+
+      footer {
+         border-top: 1px solid #ccc;
+         padding-top: 10px;
+      }
+
+      .form-control {
+         border: 1px solid #e1e1e1 !important;
+         height: 40px !important;
+      }
+
+      @media (max-width: 2580px) and (min-width : 1500px) {
+         .container {
+      width: 70%;
+  }
+         .tm-seres-form button,
+         .tm-seres-form p {
+            font-size: 20px;
+         }
+
+         .form-control {
+            height: 50px;
+            font-size: 17px;
+         }
+
+         .form-group {
+            margin-bottom: 15px;
+         }
+
+         input[type='checkbox'] {
+            width: 34px;
+            height: 25px;
+            position: relative;
+            top: 4px;
+         }
+
+         .tm-seres-form label {
+            font-size: 17px;
+         }
+
+         .tm-seres-form {
+            padding: 25px 20px 20px;
+            max-width: 400px;
+            position: relative;
+            right: -10%;
+         }
+      }
+     .cookies-box{
+         border: 1px solid black;
+         position: fixed;
+         z-index: 1000;
+         inset: auto 2px 0 2px;
+         background-color: white;
+         padding: 15px;
+         box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+         line-height: 1.5;
+      }
+      .cookies-box svg{
+         font-size: 30px;
+      }
+      @media (min-width:40rem){
+         .cookies-box{
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-between;
+            align-items: center;
+         }
+      }
+
+      @media (max-width: 1351px) and (min-width : 1024px) {
+         .banner .content-box {
+            top: 0 !important;
+         }
+      }
+     @media (max-width: 1024px) and (min-width : 991px) {
+       .banner .inner-content img{
+         height: 100vh;
+       }
+     }
+     @media (max-width: 990px) and (min-width : 768px) {
+       .banner .content-box{
+        position: relative;
+       }
+       .tm-seres-form{
+       float: none;
+         margin: auto;
+       }
+     }
+      @media (max-width: 768px) {
+         .banner .content-box {
+            position: relative;
+            margin-top: 20px;
+            top: 0;
+         }
+
+         .banner .inner-content img {
+            height: auto;
+            overflow: hidden;
+            object-fit: cover;
+            object-position: top;
+         }
+      }
+   </style>
+</head>
+<body>
+  %%[
+var @name, @email, @Phnumber, @sendableEmail, @optin, @utm_source, @utm_medium, @utm_campaign, @utm_Id, @utm_term,
+@utm_content, @state, @city, @orgName, @product, @industry, @product_interested
+
+    SET @name = RequestParameter("user_name")
+    SET @email = RequestParameter("user_email")
+    SET @Phnumber = RequestParameter("user_mobile")
+    SET @code = "91"
+    SET @mobilecode = Concat(@code, @Phnumber)
+    SET @city = RequestParameter("city")
+    SET @state = RequestParameter("state")
+    SET @orgName = RequestParameter("user_org")
+    SET @utm_campaign = RequestParameter("utm_campaign")
+    SET @utm_medium = RequestParameter("utm_medium")
+    SET @utm_source = RequestParameter("utm_source")
+    SET @industry = RequestParameter("industry")
+    SET @product = RequestParameter("product")
+    SET @product_interested = RequestParameter("Product-Interested")
+
+    IF NOT EMPTY(@email) THEN
+        UpsertData(
+            "PowertoChoose_db",
+            1,
+            "Email", @email,
+            "Name", @name,
+            "Mobile_No", @mobilecode,
+            "State", @state,
+            "City", @city,
+            "Industry", @industry,
+            "Product_Interested", @product_interested,
+            "Product", @product,
+            "utm_source", @utm_source,
+            "utm_medium", @utm_medium,
+            "utm_campaign", @utm_campaign
+        )
+        Redirect("https://cloud.connect.canon.co.in/power-to-choose-thankyou-page")
+    ENDIF
+
+]%%
+   <header class="py-3">
+      <div class="container-fluid">
+         <div class="logo text-end">
+            <img
+               src="https://image.connect.canon.co.in/lib/fe3811737164047f711574/m/1/87451efa-e115-49b9-ae4e-6438546db022.png?b=1698258649000"
+               alt="canon logo" loading="lazy">
+         </div>
+      </div>
+   </header>
+   <section id="about" class="banner">
+      <div class="inner-content">
+         <!--- <img src="https://image.connect.canon.co.in/lib/fe3811737164047f711574/m/1/d3f1642a-4d77-49cc-a4b9-51cfa68dd655.jpg?b=1692746611000">--->
+       <picture>
+          <source media="(min-width: 768px)" 
+            srcset="https://image.connect.canon.co.in/lib/fe3811737164047f711574/m/1/81e64512-f5b7-47e7-b53a-b819b7a9fb9f.jpg?b=1700258003000">
+         <img src="https://image.connect.canon.co.in/lib/fe3811737164047f711574/m/1/69561ae2-176a-471d-a8d8-2a075387e03a.jpg?b=1700258002000" 
+            alt="banner-img" 
+            style="max-width: 100%;">
+       </picture>
+         <div class="content-box">
+            <div class="container">
+               <div class="tm-seres-form">
+                  <p>
+                     Get Your Perfect Printer Today!
+                  </p>
+                  <div id="errorMessage"></div>
+                  <form id="form" name="submit_form" method="post">
+                     <input type="hidden" id="utm_campaign" name="utm_campaign" value="">
+                     <input type="hidden" id="utm_medium" name="utm_medium" value="">
+                     <input type="hidden" id="utm_source" name="utm_source" value="">
+                     <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Name" name="user_name" required="true">
+                     </div>
+                     <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Email" id="email" name="user_email"
+                           required="true">
+                     </div>
+                     <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Mobile No." name="user_mobile"
+                           maxlength="10" required="true">
+                     </div>
+                     <div class="form-group w-50">
+                        <select class="form-control" aria-label="form-field" name="state" id="state" required="true">
+                           <option value="">Select State</option>
+
+                        </select>
+                     </div>
+                     <div class="form-group w-50">
+                        <select class="form-control" name="city" id="city" required="true">
+                           <option value="">Select City</option>
+                        </select>
+                     </div>
+                     <div class="form-group w-50">
+                        <select class="form-control" name="Product-Interested" id="Product-Interested" required="true">
+                           <option value="">Product Interested In</option>
+                           <option value="Mono Multi-function Device">Mono Multi-function Device</option>
+                           <option value="Colour Multi-function Device">Colour Multi-function Device</option>
+                        </select>
+                     </div>
+                     <div class="form-group w-50">
+                        <select class="form-control" name="product" id="product" required="true">
+                           <option value="">Select Product</option>
+                           <option value="iR 1643">iR 1643</option>
+                           <option value="iR 2224/2224N">iR 2224/2224N
+                           </option>
+                           <option value="iR 2900 Series">iR 2900 Series</option>
+                           <option value="iR-ADV DX 4900 Series">iR-ADV DX 4900 Series</option>
+                           <option value="iR C3326">iR C3326</option>
+                           <option value="iR-ADV DX C3900 Series">iR-ADV DX C3900 Series
+                           </option>
+                           <option value="iR-ADV DX C359i">iR-ADV DX C359i</option>
+                           <option value="iR-ADV  DX 6700i Series">iR-ADV  DX 6700i Series</option>
+                           <option value="iR-ADV DX 6855i">iR-ADV DX 6855i</option>
+                        </select>
+                     </div>
+                     <div class="form-group">
+                        <select class="form-control" name="industry" id="industry" required="true">
+                           <option value="">Select Industry</option>
+                           <option value="Banking">Banking</option>
+                           <option value="Government">Government</option>
+                           <option value="Enterprise">Enterprise</option>
+                           <option value="Small and Medium Business">Small and Medium Business</option>
+                           <option value="SOHO">SOHO</option>
+                           <option value="Other">Other</option>
+                        </select>
+                     </div>
+                     
+                     <div class="form-group w-100">
+                        <button type="submit" name="submitted" value="submitted" class="g-recaptcha"
+                           data-sitekey="6LfrLQopAAAAAFn5ADWXEffU9q94OGRRUFTbIGoy" data-callback='onSubmit'
+                           data-action='submit'>Submit</button>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+  <div class="cookies-box">
+   <div class="cross-button">
+      <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm79 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/></svg>
+   </div>
+      <div id="onetrust-policy">
+            By continuing to use this website, you are agreeing to our <a href="https://in.canon/terms" target="_blank">Term of Use</a> and <a href="https://in.canon/privacy" target="_blank">Privacy Policy</a> (including the use of cookies by this site to offer you a better experience).
+      </div>
+   </div>
+   <footer class="py-3">
+      <div class="container">
+         <div class="row align-items-center">
+            <div class="col-md-12">
+               <p class="mb-0 text-center">Copyright © 2023 Canon. <a href=""
+                     target="_blank">Cookie Policy</a> | <a href=""
+                     target="_blank">Privacy Notice</a> </p>
+            </div>
+         </div>
+      </div>
+   </footer>
+   <script>
+      async function addState() {
+         const state_promise = await fetch("https://support.asdc.org.in/statesbycountry?country_id=101");
+         const text = await state_promise.text();
+         document.querySelector("[name='state']").innerHTML = text;
+      }
+      async function addCity(event) {
+         const stateId = event.target.options[event.target.selectedIndex].dataset.id;
+         const city_promise = await fetch(`https://support.asdc.org.in/citybystate?state_id=${stateId}`);
+         const text = await city_promise.text();
+         document.querySelector("[name='city']").innerHTML = text;
+      }
+      const state = document.querySelector("[name='state']");
+      state.addEventListener("change", (event) => { addCity(event) });
+      addState();
+   </script>
+   <script>
+      function validateForm() {
+          var name = document.forms["submit_form"]["user_name"].value;
+          var email = document.forms["submit_form"]["user_email"].value;
+          var mobile = document.forms["submit_form"]["user_mobile"].value;
+          var state = document.forms["submit_form"]["state"].value;
+          var city = document.forms["submit_form"]["city"].value;
+          var productInterested = document.forms["submit_form"]["Product-Interested"].value;
+          var industry = document.forms["submit_form"]["industry"].value;
+          var product = document.forms["submit_form"]["product"].value;
+          var errorMessage = "";
+          switch (true) {
+              case name.trim() === "":
+                  errorMessage += "Please enter your Name.\n";
+                  break;
+              case email.trim() === "":
+                  errorMessage += "Please enter your Email.\n";
+                  break;
+              case mobile.trim() === "" || isNaN(mobile) || mobile.length !== 10:
+                  errorMessage += "Please enter a valid Mobile Number.\n";
+                  break;
+              case state === "":
+                  errorMessage += "Please select a State.\n";
+                  break;
+              case city === "":
+                  errorMessage += "Please select a City.\n";
+                  break;
+              case productInterested === "":
+                  errorMessage += "Please select a Product Interested In.\n";
+                  break;
+              case industry === "":
+                  errorMessage += "Please select an Industry.\n";
+                  break;
+              case product === "":
+                  errorMessage += "Please select a Product.\n";
+                  break;
+          }
+  
+          if (errorMessage !== "") {
+            document.querySelector("#errorMessage").innerText=errorMessage
+              return false;
+          }
+  
+          return true;
+      }
+      function setUTM() {
+         const utmCampaign = getURLParameter('utm_campaign');
+         const utmMedium = getURLParameter('utm_medium');
+         const utmSource = getURLParameter('utm_source');
+         if (utmMedium && utmSource) {
+            if (utmCampaign) {
+               document.getElementById('utm_campaign').value = utmCampaign;
+            } else {
+               document.getElementById('utm_campaign').value = "";
+            }
+            document.getElementById('utm_medium').value = utmMedium;
+            document.getElementById('utm_source').value = utmSource;
+         }
+      }
+      function getURLParameter(name) {
+         const urlParams = new URLSearchParams(window.location.search);
+         return urlParams.get(name);
+      }
+
+      function onSubmit(event,token) {
+         setUTM();
+         let validiation_result=validateForm();
+         if(validiation_result){
+            document.getElementById('form').submit();
+         }
+      }
+      const closeButton = document.querySelector(".cross-button");
+const cookiesBox = closeButton.closest(".cookies-box");
+
+closeButton.addEventListener("click", () => {
+  cookiesBox.style.transition = "opacity 0.5s ease-out";
+  cookiesBox.style.opacity = 0;
+  setTimeout(() => {
+    cookiesBox.style.display = "none";
+  }, 500);
+});
+
+   </script>
+</body>
+
+</html>

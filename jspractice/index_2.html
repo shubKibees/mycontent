@@ -1,16 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Document</title>
 </head>
+<style>
+   [text-content]::before{
+      content: attr(text-content);
+   }
+</style>
+
 <body>
    <section class="loder">
-      <svg width="215" height="215" viewBox="0 0 215 215" fill="none" xmlns="http://www.w3.org/2000/svg">
-         <path  d="M5 107.5C5 164.109 50.8908 210 107.5 210C164.109 210 210 164.109 210 107.5C210 50.8908 164.109 5 107.5 5C50.8908 5 5 50.8908 5 107.5Z" stroke="black" stroke-width="10"/>
-         </svg> 
+      <div class="container">
+         <div class="text-container" text-content="" style="perspective: 500px; background-color: red;display: flex;gap:0px;"></div>
+      </div>
    </section>
-      <script src="script_2.js"></script>    
+
+   <script>
+      var string = "The ONE Standard Odourless diaper pail is a specialized container";
+
+      //  function createTextUpdater(speed) {
+      //   var i = 0;
+
+      //   function textUpdate() {
+      //     const text_area = document.getElementById("textt");
+      //     const current_placeholder = text_area.getAttribute("placeholder");
+      //     let char = string.charAt(i);
+      //     text_area.setAttribute("placeholder", current_placeholder + char);
+      //     i++;
+      //     let color_position = (360 / string.length) * i;
+      //     console.log(color_position)
+      //     color_position = color_position % 360; // Ensure the value is within the range [0, 360)
+      //     Object.assign(text_area.style, {
+      //          background: `hsl(${color_position}, 100%, 50%)`, 
+      //     });
+      //     if (i < string.length) {
+      //       setTimeout(textUpdate, speed);
+      //     }
+      //   }
+
+      //   return textUpdate;
+      // }
+
+
+      // function textUpdate(i) {
+      //    const text_area = document.getElementById("textt");
+      //    const current_placeholder = text_area.getAttribute("placeholder");
+      //    let char = string.charAt(i);
+      //    text_area.setAttribute("placeholder", current_placeholder + char);
+      // }
+
+      // function* gen(str, speed) {
+      //    for (let i = 0; i < str.length; i++) {
+      //       yield textUpdate(i);
+      //       yield new Promise(resolve => setTimeout(resolve, speed)); // introduce delay
+      //    }
+      // }
+
+      // const generator = gen("yourStringHere", 500);
+
+      // function runGenerator() {
+      //    const result = generator.next();
+      //    if (!result.done) {
+      //       setTimeout(runGenerator, 0);
+      //    }
+      // }
+
+      // runGenerator();
+
+
+      // async function* textGenerator(text, delay) {
+      //    let i = 0;
+      //    while (i < text.length) {
+      //       yield text.charAt(i);
+      //       await new Promise(resolve => setTimeout(resolve, delay));
+      //       i++;
+      //    }
+      // }
+      // async function text_adderder(text, id, delay) {
+      //    const text_area = document.getElementById(id);
+      //    if (!text_area) {
+      //       console.error(`Element with id '${id}' not found`);
+      //       return;
+      //    }
+      //    for await (const char of textGenerator(text, delay)) {
+      //       const current_placeholder = text_area.getAttribute("placeholder");
+      //       text_area.setAttribute("placeholder", current_placeholder + char);
+      //    }
+      // }
+      // text_adderder(string, "textt", 300);
+
+      async function* textGenerator(text, delay) {
+         for (let i = 0; i < text.length; i++) {
+            yield text.charAt(i);
+            await new Promise(resolve => setTimeout(resolve, delay));
+         }
+      }
+      async function text_adderder(text, delay) {
+         const text_area = document.querySelector(".text-container");
+         if (!text_area) return console.error(`Element with id not found`);
+         for await (const char of textGenerator(text, delay)) {
+            text_area.setAttribute("text-content",text_area.getAttribute("text-content")+char)
+         }
+      }
+      text_adderder(string, 300);
+   </script>
 </body>
+
 </html>
