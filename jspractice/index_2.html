@@ -16,6 +16,9 @@
    <section class="loder">
       <div class="container">
          <div class="text-container" text-content="" style="perspective: 500px; background-color: red;display: flex;gap:0px;"></div>
+         <div class="text-container" text-content="" style="perspective: 500px; background-color: red;display: flex;gap:0px;"></div>
+         <div class="text-container" text-content="" style="perspective: 500px; background-color: red;display: flex;gap:0px;"></div>
+         <div class="text-container" text-content="" style="perspective: 500px; background-color: red;display: flex;gap:0px;"></div>
       </div>
    </section>
 
@@ -100,13 +103,16 @@
          }
       }
       async function text_adderder(text, delay) {
-         const text_area = document.querySelector(".text-container");
-         if (!text_area) return console.error(`Element with id not found`);
+         const text_areas = document.querySelectorAll("[text-content]");
+         if (!text_areas) return console.error(`Element with id not found`);
          for await (const char of textGenerator(text, delay)) {
-            text_area.setAttribute("text-content",text_area.getAttribute("text-content")+char)
+            text_areas.forEach((text_area)=>{
+               text_area.setAttribute("text-content",text_area.getAttribute("text-content")+char)
+
+            })
          }
       }
-      text_adderder(string, 300);
+      text_adderder(string, 30);
    </script>
 </body>
 
