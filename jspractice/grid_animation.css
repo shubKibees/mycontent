@@ -1,0 +1,45 @@
+*{
+   margin: 0px;
+   padding: 0px;
+   box-sizing: border-box;
+}
+img{
+   display: block;
+   max-width: 100%;
+   object-fit: contain;
+}
+.grid {
+   width: 100%;
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   grid-template-rows: 400px;
+   overflow: hidden;
+   transition: 2s;
+}
+.item{
+   transition: 2s;
+}
+
+.item>img {
+   transition: 2s;
+   width: 100%;
+   object-fit: cover;
+}
+
+
+
+
+.grid:hover:has(.item:nth-child(1):hover) {
+   grid-template-columns: 100% 0 0;
+   transition: 2s;
+}
+
+.grid:hover:has(.item:nth-child(2):hover) {
+   transition: 2s;
+   grid-template-columns: 0 100% 0;
+}
+
+.grid:hover:has(.item:nth-child(3):hover) {
+   transition: 2s;
+   grid-template-columns: 0 0 100%;
+}
